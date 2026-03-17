@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <springProperty name="app" scope="context" source="spring.application.name"/>
+  <springProperty name="app_region" scope="context" source="cloud.aws.region.static"/>
+  <springProperty name="app_version" scope="context" source="info.app.version"/>
+  <springProperty name="country" scope="context" source="info.app.country_code"/>
+  <springProperty name="hostname" scope="context" source="HOSTNAME"/>
+
+  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+  <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+  <appender name="STDOUT_JSON" class="ch.qos.logback.core.ConsoleAppender">
+    <layout class="net.logstash.logback.layout.LogstashLayout">
+      <includeCallerData>true</includeCallerData>
+      <provider class="net.logstash.logback.composite.loggingevent.ArgumentsJsonProvider"/>
+      <suffix class="ch.qos.logback.classic.PatternLayout">
+        <pattern>%n</pattern>
+      </suffix>
+    </layout>
+  </appender>
+
+  <springProfile name="!production">
+    <logger level="WARN" name="org.hibernate"/>
+
+    <root level="INFO">
+      <appender-ref ref="CONSOLE"/>
+    </root>
+  </springProfile>
+
+  <springProfile name="production">
+    <logger level="INFO" name="org.springframework"/>
+    <logger level="INFO" name="org.hibernate"/>
+
+    <root level="INFO">
+      <appender-ref ref="STDOUT_JSON"/>
+    </root>
+  </springProfile>
+
+  <logger level="INFO" name="org.springframework.cloud.aws"/>
+  <logger level="WARN" name="org.flywaydb"/>
+  <logger level="ERROR" name="Hibernate Types"/>
+</configuration>

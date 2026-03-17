@@ -1,0 +1,26 @@
+version: '3.3'
+services:
+  db:
+    image: postgres:14.15-alpine
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=demo
+  aws:
+    image: gresau/localstack-persist:4.3.0
+    ports:
+      - "4566:4566"
+    environment:
+      - AWS_ACCESS_KEY_ID=id
+      - AWS_SECRET_ACCESS_KEY=key
+      - AWS_DEFAULT_REGION=eu-west-1
+      - SERVICES=s3,sqs,sns
+    volumes:
+      - ./tmp/localstack:/persisted-data
+      - /var/run/docker.sock:/var/run/docker.sock
+volumes:
+  postgres-data:

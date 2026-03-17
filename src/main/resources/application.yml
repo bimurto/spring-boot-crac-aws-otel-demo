@@ -1,0 +1,83 @@
+spring:
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+  application:
+    name: demo-api
+  datasource:
+    url: jdbc:postgresql://${DB_HOSTNAME:localhost:5432}/${DB_NAME:demo}?currentSchema=public
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:password}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+  flyway:
+    enabled: false
+    table: schema_version
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    mapper:
+      ACCEPT_CASE_INSENSITIVE_ENUMS: true
+  groovy:
+    template:
+      check-template-location: false
+  cloud:
+    aws:
+      sqs:
+        queue-not-found-strategy: fail
+
+server:
+  max-http-request-header-size: 32KB
+
+management:
+  endpoint:
+    health:
+      show-details: always
+      enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      base-path: /
+      path-mapping:
+        health: /health/check
+        info: /health/check/lb
+        metrics: /spring-metrics
+      exposure:
+        include: prometheus,health,info,metrics,api-docs
+  health:
+    jms:
+      enabled: false
+    db:
+      enabled: false
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+info:
+  app:
+    environment: ${ENVIRONMENT:local}
+    time_zone: ${LOCAL_TIME_ZONE:Europe/Berlin}
+
+cloud:
+  aws:
+    region:
+      static: ${AWS_DEFAULT_REGION:eu-west-1}
+    sns:
+      client:
+        endpoint: ${AWS_SNS_CLIENT_ENDPOINT:}
+    sqs:
+      client:
+        endpoint: ${AWS_SQS_CLIENT_ENDPOINT:}
+
+
+
+
+
+
