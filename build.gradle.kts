@@ -95,5 +95,3 @@ springBoot {
 tasks.getByName<BootJar>("bootJar") {
     archiveFileName.set("demo.jar")
 }
-
-

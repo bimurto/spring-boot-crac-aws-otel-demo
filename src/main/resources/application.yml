@@ -75,9 +75,3 @@ cloud:
     sqs:
       client:
         endpoint: ${AWS_SQS_CLIENT_ENDPOINT:}
-
-
-
-
-
-

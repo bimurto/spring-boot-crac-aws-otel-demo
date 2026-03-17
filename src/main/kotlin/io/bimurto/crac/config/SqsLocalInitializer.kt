@@ -3,7 +3,6 @@ package io.bimurto.crac.config
 import jakarta.annotation.PostConstruct
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Component
 import software.amazon.awssdk.services.s3.S3Client

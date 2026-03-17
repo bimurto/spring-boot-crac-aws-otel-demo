@@ -10,7 +10,6 @@ import io.opentelemetry.context.propagation.TextMapGetter
 import net.logstash.logback.argument.StructuredArguments.kv
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
 import software.amazon.awssdk.services.sqs.model.Message
 import software.amazon.awssdk.services.sqs.model.MessageSystemAttributeName
 import java.time.OffsetDateTime
@@ -22,7 +21,6 @@ abstract class AbstractListener(
 ) {
 
     val log: Logger = LoggerFactory.getLogger(AbstractListener::class.java)
-
 
     inline fun <reified T> handle(
         message: Message,
