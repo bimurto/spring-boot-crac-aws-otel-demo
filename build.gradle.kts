@@ -16,7 +16,7 @@ plugins {
     id("com.adarshr.test-logger") version "4.0.0"
 }
 
-group = "com.deliveryhero"
+group = "io.bimurto"
 
 java {
     toolchain {
@@ -73,8 +73,8 @@ dependencyManagement {
 
 val localAwsEnvironment = mapOf(
     "AWS_REGION" to "eu-west-1",
-    "AWS_ACCESS_KEY_ID" to "id",
-    "AWS_SECRET_ACCESS_KEY" to "key"
+    "AWS_ACCESS_KEY_ID" to "test",
+    "AWS_SECRET_ACCESS_KEY" to "test"
 )
 
 tasks.bootRun{
