@@ -37,7 +37,7 @@ export GLIBC_TUNABLES=glibc.pthread.rseq=0
 
 # Define the list
 objects=(
-  "appName:api command:io.bimurto.crac.Application"
+  "appName:app command:io.bimurto.crac.Application"
 )
 
 # Loop through the list

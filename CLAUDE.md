@@ -17,9 +17,9 @@ docker-compose up -d
 ./gradlew bootRun
 
 # Run with CRaC
-./scripts/crac/local/start_api.sh
+./scripts/crac/local/start_app.sh
 ./scripts/crac/local/create-checkpoint.sh
-./scripts/crac/local/from_checkpoint_api.sh
+./scripts/crac/local/from_checkpoint_app.sh
 ```
 
 ## Test

@@ -5,10 +5,10 @@ MAX_DIR=$(aws s3 ls "s3://${S3_BUCKET}/check_points/${APP_VERSION}/" \
     | sed 's#/##' \
     | sort -n \
     | tail -1)
-aws s3 cp "s3://${S3_BUCKET}/check_points/${APP_VERSION}/${MAX_DIR}/api.tar.gz.enc" / > /dev/null 2>&1
+aws s3 cp "s3://${S3_BUCKET}/check_points/${APP_VERSION}/${MAX_DIR}/app.tar.gz.enc" / > /dev/null 2>&1
 cd /
-openssl enc -d -aes-256-cbc -pbkdf2 -pass pass:"$CRAC_CHECKPOINT_SECRET" -in api.tar.gz.enc -out api.tar.gz
-tar -xzvf api.tar.gz > /dev/null 2>&1
+openssl enc -d -aes-256-cbc -pbkdf2 -pass pass:"$CRAC_CHECKPOINT_SECRET" -in app.tar.gz.enc -out app.tar.gz
+tar -xzvf app.tar.gz > /dev/null 2>&1
 cd "$APP_HOME" || exit 1
 export GLIBC_TUNABLES=glibc.pthread.rseq=0
 java \
