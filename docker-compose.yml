@@ -11,16 +11,24 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=demo
   aws:
-    image: gresau/localstack-persist:4.3.0
+    image: localstack/localstack:latest
     ports:
       - "4566:4566"
     environment:
-      - AWS_ACCESS_KEY_ID=id
-      - AWS_SECRET_ACCESS_KEY=key
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
       - AWS_DEFAULT_REGION=eu-west-1
       - SERVICES=s3,sqs,sns
     volumes:
-      - ./tmp/localstack:/persisted-data
+      - ./tmp/localstack:/var/lib/localstack
       - /var/run/docker.sock:/var/run/docker.sock
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.120.0
+    command: ["--config=/etc/otel-collector-config.yml"]
+    volumes:
+      - ./otel-collector-config.yml:/etc/otel-collector-config.yml
+    ports:
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
 volumes:
   postgres-data:

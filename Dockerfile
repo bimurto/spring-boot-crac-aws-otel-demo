@@ -16,11 +16,11 @@ RUN mkdir -p $APP_HOME
 
 
 COPY scripts/crac/automatic_checkpoint_creation.sh $APP_HOME/automatic_checkpoint_creation.sh
-COPY scripts/crac/from_checkpoint_api.sh $APP_HOME/from_checkpoint_api.sh
+COPY scripts/crac/from_checkpoint_app.sh $APP_HOME/from_checkpoint_api.sh
 COPY scripts/crac/from_checkpoint_listener.sh $APP_HOME/from_checkpoint_listener.sh
 
 RUN chmod +x $APP_HOME/automatic_checkpoint_creation.sh
-RUN chmod +x $APP_HOME/from_checkpoint_api.sh
+RUN chmod +x $APP_HOME/from_checkpoint_app.sh
 RUN chmod +x $APP_HOME/from_checkpoint_listener.sh
 
 EXPOSE 8080

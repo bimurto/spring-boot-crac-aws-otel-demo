@@ -3,12 +3,15 @@ package io.bimurto.crac.config
 import jakarta.annotation.PostConstruct
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Component
 import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.sns.SnsClient
 import software.amazon.awssdk.services.sqs.SqsAsyncClient
 import software.amazon.awssdk.services.sqs.model.CreateQueueRequest
+import software.amazon.awssdk.services.sqs.model.GetQueueAttributesRequest
+import software.amazon.awssdk.services.sqs.model.QueueAttributeName
 
 @Component
 class SqsLocalInitializer(
@@ -32,8 +35,22 @@ class SqsLocalInitializer(
                 //ignore if bucket already exists
                 log.error("Bucket already exists {}", ex.message)
             }
-            snsClient.createTopic { it.name(snsTopic) }
-            sqsClient.createQueue(CreateQueueRequest.builder().queueName(sqsQueue).build())
+            val topicArn = snsClient.createTopic { it.name(snsTopic) }.topicArn()
+            val queueUrl = sqsClient.createQueue(CreateQueueRequest.builder().queueName(sqsQueue).build()).get().queueUrl()
+
+            val queueArn = sqsClient.getQueueAttributes(
+                GetQueueAttributesRequest.builder()
+                    .queueUrl(queueUrl)
+                    .attributeNames(QueueAttributeName.QUEUE_ARN)
+                    .build()
+            ).get().attributes()[QueueAttributeName.QUEUE_ARN]
+
+            snsClient.subscribe {
+                it.topicArn(topicArn)
+                it.protocol("sqs")
+                it.endpoint(queueArn)
+            }
+            log.info("Subscribed {} to SNS topic {}", sqsQueue, snsTopic)
         }
 
     }

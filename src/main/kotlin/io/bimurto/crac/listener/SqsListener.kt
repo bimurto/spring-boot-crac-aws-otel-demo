@@ -14,10 +14,10 @@ class SqsListener(
     openTelemetry: OpenTelemetry,
 ) : AbstractListener(objectMapper = objectMapper, openTelemetry = openTelemetry, isSnsMessage = false) {
 
-    @SqsListener(value = ["demo-queue"])
+    @SqsListener(value = ["\${queue.demo}"])
     fun listen(message: Message) {
         handle<SqsDto>(message, block = {
-            println(it)
+            log.info("Received SQS message: name={}", it.name)
         })
     }
 

@@ -9,21 +9,14 @@ spring:
     password: ${DB_PASSWORD:password}
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
     show-sql: false
     properties:
       hibernate:
         format_sql: false
   flyway:
-    enabled: false
+    enabled: true
     table: schema_version
-  jackson:
-    property-naming-strategy: SNAKE_CASE
-    mapper:
-      ACCEPT_CASE_INSENSITIVE_ENUMS: true
-  groovy:
-    template:
-      check-template-location: false
   cloud:
     aws:
       sqs:
@@ -71,7 +64,14 @@ cloud:
       static: ${AWS_DEFAULT_REGION:eu-west-1}
     sns:
       client:
-        endpoint: ${AWS_SNS_CLIENT_ENDPOINT:}
+        endpoint: ${AWS_SNS_CLIENT_ENDPOINT:http://localhost:4566}
     sqs:
       client:
-        endpoint: ${AWS_SQS_CLIENT_ENDPOINT:}
+        endpoint: ${AWS_SQS_CLIENT_ENDPOINT:http://localhost:4566}
+
+topic:
+  demo: ${TOPIC_DEMO:arn:aws:sns:eu-west-1:000000000000:demo-topic}
+
+queue:
+  demo: ${QUEUE_DEMO:http://localhost:4566/000000000000/demo-queue}
+

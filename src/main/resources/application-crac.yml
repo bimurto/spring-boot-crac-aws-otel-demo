@@ -13,10 +13,5 @@ spring:
       mode: never
   flyway:
     enabled: false
-otel:
-  logs:
-    exporter: none
-  traces:
-    sampler: always_on
 crac:
   enabled: ${CRAC_ENABLED:true}

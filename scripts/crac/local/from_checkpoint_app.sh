@@ -10,4 +10,4 @@ docker run -p 8080:8080 \
   --network host \
   --name demo \
   bellsoft/liberica-runtime-container:jdk-21-crac-slim-glibc \
-  java -Xmx512m -XX:CRaCRestoreFrom=/crac/checkpoint/api
+  java -Xmx512m -XX:CRaCRestoreFrom=/crac/checkpoint/app

@@ -26,7 +26,7 @@ class SNSNotificationSender(
         val log: Logger = LoggerFactory.getLogger(SNSNotificationSender::class.java)
     }
 
-    private fun send(snsDto: SNSDto) {
+    fun send(snsDto: SNSDto) {
         val messageAttributes = mutableMapOf<String, MessageAttributeValue>()
         val sqsAttributesSetter = TextMapSetter<MutableMap<String, MessageAttributeValue>> { carrier, key, value ->
             carrier?.set(
